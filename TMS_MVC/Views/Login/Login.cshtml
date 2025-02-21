@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h2 class="text-center mb-4">Login</h2>
+
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "needs-validation", novalidate = "true" }))
+                {
+                    <div class="mb-3">
+                        @Html.Label("Email", new { @class = "form-label fw-bold" })
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required />
+                    </div>
+
+                    <div class="mb-3">
+                        @Html.Label("Password", new { @class = "form-label fw-bold" })
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right"></i> Login</button>
+                }
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("ForgotPassword", "Auth")" class="text-decoration-none">Forgot Password?</a>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("Register", "Auth")" class="text-decoration-none">Don't have an account? Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

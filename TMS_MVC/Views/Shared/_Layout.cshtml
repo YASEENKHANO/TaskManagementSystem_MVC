@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("Task Management System", "Index", "Dashboard", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Home", "Index", "Task", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Create", "Create", "Task", new { area = "" }, new { @class = "nav-link" })</li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @if (Session["UserId"] == null) // User is NOT logged in
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary text-white" href="@Url.Action("Login", "Login")">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        </li>
+                    }
+                    else // User IS logged in
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-danger text-white" href="@Url.Action("Logout", "Login")">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        @* Added classes for styling and sticky footer *@
+        <div class="container text-center">
+            @* Center the content *@
+            <span class="text-muted">All rights reserved. Made by Yaseen.</span><br />  @* Added line break for social icons *@
+            <a href="https://www.linkedin.com/in/muhammad-yaseen-khan-16790919a/" class="me-2"><i class="fab fa-linkedin"></i></a>  @* Facebook icon *@
+            <a href="#" class="me-2"><i class="fab fa-facebook"></i></a>  @* Facebook icon *@
+            <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>   @* Twitter icon *@
+            <a href="#"><i class="fab fa-instagram"></i></a>   @* Instagram icon *@
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

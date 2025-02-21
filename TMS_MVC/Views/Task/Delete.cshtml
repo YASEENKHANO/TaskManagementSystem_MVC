@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+}
+@model TMS_MVC.Models.Task
+
+<h2 class="mb-4 text-danger">Delete Task</h2>
+
+<div class="card shadow p-4 border-danger">
+    <p class="fw-bold">Are you sure you want to delete this task?</p>
+
+    <ul>
+        <li><strong>Title:</strong> @Model.Title</li>
+        <li><strong>Description:</strong> @Model.Description</li>
+        <li><strong>Status:</strong> @Model.Status</li>
+        <li><strong>Assigned To:</strong> @(Model.AssignedUser?.Name ?? "Unassigned")</li>
+    </ul>
+
+    @using (Html.BeginForm("Delete", "Task", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.Id)
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+        <a href="@Url.Action("Index", "Task")" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Cancel</a>
+    }
+</div>

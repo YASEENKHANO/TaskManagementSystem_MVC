@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Task</h2>
+@if (Session["UserRole"] != null && (Session["UserRole"].ToString() == "Admin" || Session["UserRole"].ToString() == "Manager"))
+{
+    <a href="@Url.Action("Create", "Task")" class="btn btn-success mb-3"><i class="bi bi-plus-circle"></i> Create Task</a>
+}
+
+
+<table class="table table-bordered table-striped mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>
+                    <select class="form-select status-dropdown" data-id="@task.Id">
+                        <option value="Pending" @(task.Status == "Pending" ? "selected" : "")>Pending</option>
+                        <option value="In Progress" @(task.Status == "In Progress" ? "selected" : "")>In Progress</option>
+                        <option value="Completed" @(task.Status == "Completed" ? "selected" : "")>Completed</option>
+                    </select>
+                </td>
+                @*<td>@task.AssignedUser?.Name</td>*@
+                <td>@(task.AssignedUser != null ? task.AssignedUser.Name : "Unassigned")</td>
+
+                <td>
+                    <a href="/Task/Edit/@task.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="/Task/Delete/@task.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(".status-dropdown").change(function () {
+        var taskId = $(this).data("id");
+        var status = $(this).val();
+
+        $.post("/Task/UpdateStatus", { id: taskId, status: status }, function (response) {
+            alert("Status updated!");
+        });
+    });</script>

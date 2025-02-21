@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+@model TMS_MVC.Models.DashboardViewModel
+
+<div class="container mt-4">
+
+
+
+    <h2 class="text-center">📊 Task Management Dashboard</h2>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Total Tasks:</strong> @Model.TotalTasks</p>
+            <p><strong>Pending Tasks:</strong> @Model.PendingTasks</p>
+            <p><strong>In Progress Tasks:</strong> @Model.InProgressTasks</p>
+            <p><strong>Completed Tasks:</strong> @Model.CompletedTasks</p>
+
+            <h4>Tasks Per Employee:</h4>
+            <ul>
+                @foreach (var item in Model.TasksPerEmployee)
+                {
+                    <li>@item.EmployeeName: @item.TaskCount Tasks</li>
+                }
+            </ul>
+        </div>
+
+
+
+        <div class="col-md-6">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h4 class="text-center">Task Status Distribution</h4>
+                    <canvas id="taskStatusChart"></canvas>
+
+                </div>
+
+
+                <div class="col-md-6">
+                    <h4 class="text-center">Tasks Per Employee</h4>
+                    <canvas id="tasksPerEmployeeChart"></canvas>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Task Status Data (Now includes In Progress)
+        var taskStatusData = {
+            labels: ["Pending", "In Progress", "Completed"],
+            datasets: [{
+                data: [@Model.PendingTasks, @Model.InProgressTasks, @Model.CompletedTasks],
+                backgroundColor: ["#FFC107", "#17A2B8", "#28A745"]
+            }]
+        };
+
+        // Render Task Status Chart
+        new Chart(document.getElementById("taskStatusChart"), {
+            type: "doughnut",
+            data: taskStatusData
+        });
+
+        // Tasks Per Employee Data
+        var employeeNames = @Html.Raw(Json.Encode(Model.TasksPerEmployee.Select(t => t.EmployeeName).ToList()));
+        var employeeTaskCounts = @Html.Raw(Json.Encode(Model.TasksPerEmployee.Select(t => t.TaskCount).ToList()));
+
+        var tasksPerEmployeeData = {
+            labels: employeeNames,
+            datasets: [{
+                label: "Tasks",
+                data: employeeTaskCounts,
+                backgroundColor: "#007BFF"
+            }]
+        };
+
+        // Render Tasks Per Employee Chart
+        new Chart(document.getElementById("tasksPerEmployeeChart"), {
+            type: "bar",
+            data: tasksPerEmployeeData
+        });
+    });
+</script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

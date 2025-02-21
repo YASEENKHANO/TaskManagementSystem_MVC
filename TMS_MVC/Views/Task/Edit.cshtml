@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+@model TMS_MVC.Models.Task
+
+<h2 class="mb-4">Edit Task</h2>
+
+<div class="card shadow p-4">
+    @using (Html.BeginForm("Edit", "Task", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.Id)
+        <div class="mb-3">
+            @Html.LabelFor(model => model.AssignedTo, "Assign To", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Users as SelectList, "Select User", new { @class = "form-select", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Title, "Task Title", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description, "Task Description", new { @class = "form-label fw-bold" })
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "3", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.DueDate, "Due Date", new { @class = "form-label fw-bold" })
+            @Html.TextBoxFor(model => model.DueDate, new { @class = "form-control", type = "date", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Status, "Status", new { @class = "form-label fw-bold" })
+            @Html.DropDownListFor(model => model.Status, new SelectList(new[] { "Pending", "In Progress", "Completed" }), new { @class = "form-select" })
+        </div>
+
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Update Task</button>
+        <a href="@Url.Action("Index", "Task")" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+    }
+</div>
